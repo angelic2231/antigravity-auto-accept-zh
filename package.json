@@ -1,0 +1,179 @@
+{
+  "name": "antigravity-auto-accept-zh",
+  "displayName": "Antigravity Auto Accept (中文汉化增强版)",
+  "description": "Auto-accept Antigravity approval prompts, terminal run confirmations, and agent actions with bilingual CDP control panel (支持中英双语切换).",
+  "version": "1.2.0",
+  "publisher": "angelic",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/angelic2231/antigravity-auto-accept-zh"
+  },
+  "homepage": "https://github.com/angelic2231/antigravity-auto-accept-zh#readme",
+  "bugs": {
+    "url": "https://github.com/angelic2231/antigravity-auto-accept-zh/issues"
+  },
+  "categories": [
+    "Machine Learning",
+    "Other"
+  ],
+  "keywords": [
+    "antigravity",
+    "cursor",
+    "vscode",
+    "ai",
+    "auto-accept",
+    "copilot",
+    "agent",
+    "approval",
+    "approvals",
+    "prompt",
+    "terminal",
+    "automation",
+    "cdp",
+    "devtools",
+    "chinese",
+    "i18n",
+    "汉化"
+  ],
+  "scripts": {
+    "compile": "esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node --format=cjs",
+    "vscode:prepublish": "npm run compile",
+    "package": "npx vsce package",
+    "build:vsix": "npm run compile && npm run package",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "auto-accept-free.toggle",
+        "title": "Antigravity Auto Accept: 开/关 自动接受 (Toggle ON/OFF)"
+      },
+      {
+        "command": "auto-accept-free.toggleBackground",
+        "title": "Antigravity Auto Accept: 开/关 后台模式 (Toggle Background Mode)"
+      },
+      {
+        "command": "auto-accept-free.setupCDP",
+        "title": "Antigravity Auto Accept: 保存 IDE 启动器 (Save IDE Launcher)"
+      },
+      {
+        "command": "auto-accept-free.openControlPanel",
+        "title": "Antigravity Auto Accept: 打开控制面板 (Open Control Panel)"
+      },
+      {
+        "command": "auto-accept-free.toggleLanguage",
+        "title": "Antigravity Auto Accept: 切换语言 / Toggle Language (中文 / English)"
+      },
+      {
+        "command": "auto-accept-free.copyDiagnostics",
+        "title": "Antigravity Auto Accept: 复制诊断报告 (Copy Diagnostics)"
+      },
+      {
+        "command": "auto-accept-free.copySupportBundle",
+        "title": "Antigravity Auto Accept: 复制完整排错包 (Copy Full Support Bundle)"
+      },
+      {
+        "command": "auto-accept-free.openOutputLog",
+        "title": "Antigravity Auto Accept: 打开输出日志 (Open Output Log)"
+      },
+      {
+        "command": "auto-accept-free.copyLauncherSteps",
+        "title": "Antigravity Auto Accept: 复制启动步骤 (Copy Launcher Steps)"
+      },
+      {
+        "command": "auto-accept-free.copyManualLaunchCommand",
+        "title": "Antigravity Auto Accept: 复制手动启动命令 (Copy Manual Launch Command)"
+      }
+    ],
+    "configuration": {
+      "title": "Antigravity Auto Accept",
+      "properties": {
+        "autoAcceptFree.language": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "zh-CN",
+            "en"
+          ],
+          "enumDescriptions": [
+            "跟随系统语言 (Follow System)",
+            "简体中文 (Simplified Chinese)",
+            "English"
+          ],
+          "description": "UI language for Antigravity Auto Accept (插件显示语言)"
+        },
+        "autoAcceptFree.cdpPort": {
+          "type": "number",
+          "default": 9000,
+          "minimum": 1,
+          "maximum": 65535,
+          "description": "CDP port expected by Auto Accept and used when generating launcher files"
+        },
+        "autoAcceptFree.pauseOnCdpMismatch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a warning and pause action flow when configured CDP port is not active"
+        },
+        "autoAcceptFree.antigravityExecutablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional absolute path to the Antigravity executable or app bundle when it is not installed in a default location"
+        },
+        "autoAcceptFree.cursorExecutablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional absolute path to the Cursor executable or app bundle when it is not installed in a default location"
+        },
+        "autoAcceptFree.pollInterval": {
+          "type": "number",
+          "default": 500,
+          "description": "Polling interval in milliseconds (lower is faster)"
+        },
+        "autoAcceptFree.bannedCommands": {
+          "type": "array",
+          "default": [
+            "rm -rf /",
+            "rm -rf ~",
+            "rm -rf *",
+            "format c:",
+            "del /f /s /q",
+            "rmdir /s /q",
+            ":(){:|:&};:",
+            "dd if=",
+            "mkfs.",
+            "> /dev/sda",
+            "chmod -R 777 /"
+          ],
+          "description": "Dangerous command patterns blocked automatically"
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "ws": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.75.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "esbuild": "^0.19.0",
+    "jsdom": "^25.0.1",
+    "playwright": "^1.58.2",
+    "vitest": "^2.1.8",
+    "vsce": "^2.15.0"
+  }
+}
